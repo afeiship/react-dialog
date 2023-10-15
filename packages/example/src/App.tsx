@@ -1,5 +1,6 @@
 import Button from '@jswork/react-lib';
 import './App.css';
+import '@jswork/react-lib/dist/style.css';
 
 function App() {
   return (
