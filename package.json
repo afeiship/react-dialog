@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "A react component library template.",
   "homepage": "https://js.work",
-  "author": {
-    "name": "afeiship",
-    "email": "1290657123@qq.com"
-  },
   "private": true,
   "workspaces": [
     "packages/*"
