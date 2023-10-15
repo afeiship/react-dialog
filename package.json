@@ -10,9 +10,9 @@
   "dependencies": {},
   "scripts": {
     "dev": "cd packages/example && npm run dev",
-    "pre:docs": "rm -rf docs",
+    "predocs": "rm -rf docs",
     "docs": "cd packages/example && npm run build",
-    "post:docs": "cp -R packages/example/dist docs",
+    "postdocs": "cp -R packages/example/dist docs",
     "ln:build": "cd packages/lib && npm run build",
     "ln:publish": "cd packages/lib && npm run release"
   }
