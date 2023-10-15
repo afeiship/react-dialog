@@ -9,7 +9,8 @@
   "homepage": "https://js.work",
   "license": "MIT",
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "release": "release-it"
   },
   "devDependencies": {
     "@swc/core": "^1.3.93",

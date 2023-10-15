@@ -1,0 +1,2 @@
+var o=Object.defineProperty;var n=(t,e)=>o(t,"name",{value:e,configurable:!0});import r from"react";function u({children:t,onClick:e}){return r.createElement("button",{onClick:e},t)}n(u,"Button");export{u as default};
+//# sourceMappingURL=index.mjs.map
