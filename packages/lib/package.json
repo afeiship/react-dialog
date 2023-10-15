@@ -9,8 +9,8 @@
   "homepage": "https://js.work",
   "license": "MIT",
   "scripts": {
-    "prebuild": "postsass -s src/style.scss -d dist/style.css",
     "build": "tsup",
+    "postbuild": "postsass -s src/style.scss -d dist/style.css",
     "release": "release-it"
   },
   "devDependencies": {
