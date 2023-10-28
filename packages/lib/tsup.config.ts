@@ -14,4 +14,9 @@ export default defineConfig({
   target: 'es5',
   bundle: true,
   external: ['react', 'react-dom'],
+  outExtension({ format }) {
+    return {
+      js: `.${format}.js`,
+    };
+  },
 });
