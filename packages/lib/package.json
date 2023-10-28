@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsup",
-    "postbuild": "postsass -s src/style.scss -d dist/style.css",
+    "postbuild": "cp src/style.scss dist/style.scss && postsass -s src/style.scss -d dist/style.css",
     "release": "release-it --ci"
   },
   "devDependencies": {
