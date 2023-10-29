@@ -11,7 +11,7 @@ export default defineConfig({
   minify: true,
   sourcemap: true,
   splitting: true,
-  target: 'es5',
+  target: 'es6',
   bundle: true,
   external: ['react', 'react-dom'],
   outExtension({ format }) {
