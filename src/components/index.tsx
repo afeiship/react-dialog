@@ -47,7 +47,9 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     visible: false,
     fixed: false,
     withBackdrop: false,
-    keepMounted: false
+    keepMounted: false,
+    closeOnEscape: false,
+    closeOnClickOutside: false
   };
 
   private dialogRef = React.createRef<HTMLDialogElement>();
