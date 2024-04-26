@@ -35,9 +35,9 @@ export type ReactDialogProps = {
    */
   closeOnEscape?: boolean;
   /**
-   * Whether to close dialog on click outside.
+   * Whether close dialog on click backdrop.
    */
-  closeOnClickOutside?: boolean;
+  closeOnBackdropClick?: boolean;
 } & HTMLAttributes<HTMLDialogElement> & React.RefAttributes<HTMLDialogElement>;
 
 export default class ReactDialog extends Component<ReactDialogProps> {
@@ -49,7 +49,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     withBackdrop: false,
     keepMounted: false,
     closeOnEscape: false,
-    closeOnClickOutside: false
+    closeOnBackdropClick: false
   };
 
   private dialogRef = React.createRef<HTMLDialogElement>();
@@ -126,7 +126,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
       children,
       keepMounted,
       closeOnEscape,
-      closeOnClickOutside,
+      closeOnBackdropClick,
       ...props
     } = this.props;
 
@@ -163,3 +163,4 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     );
   }
 }
+
