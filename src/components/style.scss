@@ -1,9 +1,14 @@
 .react-dialog {
-  --react-dialog-z-index: 9999;
-  --react-dialog-top-show: 27.5%;
-  --react-dialog-top-hide: -30%;
-  z-index: var(--react-dialog-z-index);
+  z-index: 100;
+  left: 50%;
+  top: 37.5%;
+  transform: translate(-50%, -50%);
+  margin: 0;
 
+
+  [hidden] {
+    display: none;
+  }
 
   // data-fixed="true" means the dialog will be fixed to the top of the screen
   &[data-fixed="true"] {
@@ -14,56 +19,49 @@
     position: absolute;
   }
 
-  &[open] {
-    &[data-backdrop="true"] {
-      top: calc(var(--react-dialog-top-show) * -1);
-    }
-
-    &[data-backdrop="false"] {
-      top: calc(var(--react-dialog-top-show) * 1);
-    }
-
-    animation: show-dialog 0.3s ease normal;
-
-    &::backdrop {
-      animation: show-backdrop 0.3s normal;
-    }
-  }
-
-  &::backdrop {
+  &__backdrop {
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, .1);
     position: absolute;
+    z-index: 99;
+
+    &[data-visible="true"] {
+      animation: show-backdrop 0.3s ease normal;
+    }
+
+    &[data-visible="false"] {
+      animation: hide-backdrop 0.3s ease normal;
+    }
+  }
+
+  &[open] {
+    animation: show-dialog 0.3s ease normal;
   }
 
   &.is-hide {
     animation: hide-dialog 0.3s ease normal;
-
-    &::backdrop {
-      animation: hide-backdrop 0.3s normal;
-    }
   }
 
   // Keyframes for animations
   @keyframes show-dialog {
     from {
       opacity: 0;
-      transform: translateY(var(--react-dialog-top-hide));
+      top: 32%;
     }
 
     to {
       opacity: 1;
-      transform: translateY(0%);
+      top: 37.5%;
     }
   }
 
   @keyframes hide-dialog {
     to {
       opacity: 0;
-      transform: translateY(var(--react-dialog-top-hide));
+      top: 32%;
     }
   }
 
