@@ -23,20 +23,6 @@ export type ReactDialogProps = {
   fixed?: boolean;
 } & HTMLAttributes<HTMLDialogElement> & React.RefAttributes<HTMLDialogElement>;
 
-// var dialog = document.querySelector('dialog');
-// document.querySelector('#show').onclick = function () {
-//   dialog.show();
-//   // dialog.showModal();
-// };
-// document.querySelector('#close').onclick = function () {
-//   dialog.classList.add('hide');
-//   dialog.addEventListener('webkitAnimationEnd', function () {
-//     dialog.classList.remove('hide');
-//     dialog.close();
-//     dialog.removeEventListener('webkitAnimationEnd', arguments.callee, false);
-//   }, false);
-// };
-
 export default class ReactDialog extends Component<ReactDialogProps> {
   static displayName = CLASS_NAME;
   static version = '__VERSION__';
