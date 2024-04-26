@@ -8,10 +8,6 @@
   // data-fixed="true" means the dialog will be fixed to the top of the screen
   &[data-fixed="true"] {
     position: fixed;
-
-    &::backdrop {
-      position: fixed;
-    }
   }
 
   &[data-fixed="false"] {

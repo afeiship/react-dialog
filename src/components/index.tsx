@@ -52,6 +52,10 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     return this.dialogRef.current as HTMLDialogElement;
   }
 
+  get isVisible() {
+    return this.dialog.open;
+  }
+
   componentDidMount() {
     const { visible } = this.props;
     if (visible) this.present();
@@ -65,12 +69,14 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   }
 
   present = () => {
+    if (this.isVisible) return;
     const { withBackdrop } = this.props;
     const showMethod = withBackdrop ? 'showModal' : 'show';
     this.dialog[showMethod]();
   };
 
   dismiss = () => {
+    if (!this.isVisible) return;
     const el = this.dialog;
     el.classList.add('is-hide');
     el.addEventListener('webkitAnimationEnd', this.handleAnimationEnd, false);
