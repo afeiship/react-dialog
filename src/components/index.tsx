@@ -47,6 +47,10 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     return this.dialog.open;
   }
 
+  state = {
+    stateVisible: this.props.visible,
+  };
+
   componentDidMount() {
     const { visible } = this.props;
     if (visible) this.present();
@@ -78,11 +82,13 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     el.classList.remove('is-hide');
     el.close();
     el.removeEventListener('webkitAnimationEnd', this.handleAnimationEnd, false);
+    this.setState({ stateVisible: this.isVisible });
   };
 
   render() {
     const { className, visible, withBackdrop, fixed, children, keepMounted, ...props } = this.props;
-    const keepChildren = keepMounted || visible;
+    const { stateVisible } = this.state;
+    const keepChildren = keepMounted || stateVisible;
 
     return (
       <dialog
