@@ -79,7 +79,6 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   // ---- public methods ----
   present = () => {
     if (this.isVisible) return;
-    // const { withBackdrop } = this.props;
     this.dialog.show();
     this.setState({ stateVisible: this.isVisible });
     this.backdrop.removeAttribute('hidden');
@@ -88,24 +87,20 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
   dismiss = () => {
     if (!this.isVisible) return;
-    const el = this.dialog;
-    el.classList.add('is-hide');
-    el.addEventListener('webkitAnimationEnd', this.handleAnimationEnd, false);
+    this.dialog.classList.add('is-hide');
+    this.dialog.addEventListener('webkitAnimationEnd', this.handleAnimationEnd, { once: true });
     this.backdrop.setAttribute('data-visible', 'false');
-    this.backdrop.addEventListener('webkitAnimationEnd', this.handleBackdropAnimationEnd, false);
+    this.backdrop.addEventListener('webkitAnimationEnd', this.handleBackdropAnimationEnd, { once: true });
   };
 
   private handleAnimationEnd = () => {
-    const el = this.dialog;
-    el.classList.remove('is-hide');
-    el.close();
-    el.removeEventListener('webkitAnimationEnd', this.handleAnimationEnd, false);
+    this.dialog.classList.remove('is-hide');
+    this.dialog.close();
     this.setState({ stateVisible: this.isVisible });
   };
 
   private handleBackdropAnimationEnd = () => {
     this.backdrop.hidden = true;
-    this.backdrop.removeEventListener('webkitAnimationEnd', this.handleBackdropAnimationEnd, false);
   };
 
   render() {
@@ -117,6 +112,8 @@ export default class ReactDialog extends Component<ReactDialogProps> {
       <>
         <dialog
           id={this.id}
+          role="dialog"
+          aria-modal="true"
           data-component={CLASS_NAME}
           data-fixed={fixed}
           className={classNames(CLASS_NAME, className)}
@@ -124,12 +121,19 @@ export default class ReactDialog extends Component<ReactDialogProps> {
           {...props}>
           {keepChildren ? children : null}
         </dialog>
-        <div
-          id={`${this.id}-backdrop`}
-          hidden
-          className={`${CLASS_NAME}__backdrop`}
-          ref={this.backdropRef}
-        />
+
+        {
+          withBackdrop && (
+            <div
+              id={`${this.id}-backdrop`}
+              role="presentation"
+              aria-hidden="true"
+              hidden
+              className={`${CLASS_NAME}__backdrop`}
+              ref={this.backdropRef}
+            />
+          )
+        }
       </>
     );
   }
