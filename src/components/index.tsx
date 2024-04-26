@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import React, { Component, HTMLAttributes } from 'react';
 
 const CLASS_NAME = 'react-dialog';
+const uuid = () => Math.random().toString(36).substring(2, 9);
 
 export type ReactDialogProps = {
   /**
@@ -39,6 +40,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
   private dialogRef = React.createRef<HTMLDialogElement>();
   private backdropRef = React.createRef<HTMLDivElement>();
+  private id = `${CLASS_NAME}-${uuid()}`;
 
   // ---- dom elements ----
   get dialog() {
@@ -74,7 +76,6 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
   // ---- life cycle end ----
 
-
   // ---- public methods ----
   present = () => {
     if (this.isVisible) return;
@@ -82,6 +83,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     this.dialog.show();
     this.setState({ stateVisible: this.isVisible });
     this.backdrop.removeAttribute('hidden');
+    this.backdrop.setAttribute('data-visible', 'true');
   };
 
   dismiss = () => {
@@ -89,6 +91,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     const el = this.dialog;
     el.classList.add('is-hide');
     el.addEventListener('webkitAnimationEnd', this.handleAnimationEnd, false);
+    this.backdrop.setAttribute('data-visible', 'false');
     this.backdrop.addEventListener('webkitAnimationEnd', this.handleBackdropAnimationEnd, false);
   };
 
@@ -101,8 +104,8 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   };
 
   private handleBackdropAnimationEnd = () => {
-    if (this.state.stateVisible) return;
     this.backdrop.hidden = true;
+    this.backdrop.removeEventListener('webkitAnimationEnd', this.handleBackdropAnimationEnd, false);
   };
 
   render() {
@@ -113,6 +116,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     return (
       <>
         <dialog
+          id={this.id}
           data-component={CLASS_NAME}
           data-fixed={fixed}
           className={classNames(CLASS_NAME, className)}
@@ -121,8 +125,8 @@ export default class ReactDialog extends Component<ReactDialogProps> {
           {keepChildren ? children : null}
         </dialog>
         <div
+          id={`${this.id}-backdrop`}
           hidden
-          data-visible={withBackdrop && stateVisible}
           className={`${CLASS_NAME}__backdrop`}
           ref={this.backdropRef}
         />
