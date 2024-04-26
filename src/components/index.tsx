@@ -52,6 +52,11 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     return this.dialogRef.current as HTMLDialogElement;
   }
 
+  componentDidMount() {
+    const { visible } = this.props;
+    if (visible) this.present();
+  }
+
   shouldComponentUpdate(nextProps): boolean {
     const { visible } = nextProps;
     if (visible) this.present();
