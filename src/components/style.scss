@@ -1,0 +1,78 @@
+.react-dialog {
+  --react-dialg-position: fixed;
+  --react-dialg-z-index: 9999;
+  --react-dialg-top: 27.5%;
+
+  position: var(--react-dialg-position);
+  z-index: var(--react-dialg-z-index);
+
+  &[open] {
+    &[data-backdrop="true"] {
+      top: calc(var(--react-dialg-top) * -1);
+    }
+
+    &[data-backdrop="fasle"] {
+      top: calc(var(--react-dialg-top) * 1);
+    }
+
+    animation: show-dialog 0.3s ease normal;
+
+    &::backdrop {
+      animation: show-backdrop 0.3s normal;
+    }
+  }
+
+  &::backdrop {
+    position: var(--react-dialg-position);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+  }
+
+  &.is-hide {
+    animation: hide-dialog 0.3s ease normal;
+
+    &::backdrop {
+      animation: hide-backdrop 0.3s normal;
+    }
+  }
+
+  // Keyframes for animations
+  @keyframes show-dialog {
+    from {
+      opacity: 0;
+      transform: translateY(-30%);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+
+  @keyframes hide-dialog {
+    to {
+      opacity: 0;
+      transform: translateY(-30%);
+    }
+  }
+
+  @keyframes show-backdrop {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes hide-backdrop {
+    to {
+      opacity: 0;
+    }
+  }
+
+}
