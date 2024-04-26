@@ -21,6 +21,10 @@ export type ReactDialogProps = {
    * Whether to fixed dialog or not.
    */
   fixed?: boolean;
+  /**
+   * Whether to keep dialog mounted or not.
+   */
+  keepMounted?: boolean;
 } & HTMLAttributes<HTMLDialogElement> & React.RefAttributes<HTMLDialogElement>;
 
 export default class ReactDialog extends Component<ReactDialogProps> {
@@ -30,6 +34,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     visible: false,
     fixed: false,
     withBackdrop: false,
+    keepMounted: false,
   };
 
   private dialogRef = React.createRef<HTMLDialogElement>();
@@ -76,7 +81,8 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   };
 
   render() {
-    const { className, visible, withBackdrop, fixed, ...props } = this.props;
+    const { className, visible, withBackdrop, fixed, children, keepMounted, ...props } = this.props;
+    const keepChildren = keepMounted && visible;
 
     return (
       <dialog
@@ -85,7 +91,9 @@ export default class ReactDialog extends Component<ReactDialogProps> {
         data-fixed={fixed}
         className={classNames(CLASS_NAME, className)}
         ref={this.dialogRef}
-        {...props} />
+        {...props}>
+        {keepChildren ? children : null}
+      </dialog>
     );
   }
 }
