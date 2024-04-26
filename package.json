@@ -1,7 +1,7 @@
 {
   "name": "@jswork/react-dialog",
   "homepage": "https://js.work",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A react dialog based on HTML dialog.",
   "license": "MIT",
   "main": "dist/index.js",
