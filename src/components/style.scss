@@ -1,19 +1,26 @@
 .react-dialog {
-  --react-dialg-position: fixed;
-  --react-dialg-z-index: 9999;
-  --react-dialg-top-show: 27.5%;
-  --react-dialg-top-hide: -30%;
+  --react-dialog-z-index: 9999;
+  --react-dialog-top-show: 27.5%;
+  --react-dialog-top-hide: -30%;
+  z-index: var(--react-dialog-z-index);
 
-  position: var(--react-dialg-position);
-  z-index: var(--react-dialg-z-index);
+
+  // data-fixed="true" means the dialog will be fixed to the top of the screen
+  &[data-fixed="true"] {
+    position: fixed;
+
+    &::backdrop {
+      position: fixed;
+    }
+  }
 
   &[open] {
     &[data-backdrop="true"] {
-      top: calc(var(--react-dialg-top-show) * -1);
+      top: calc(var(--react-dialog-top-show) * -1);
     }
 
     &[data-backdrop="fasle"] {
-      top: calc(var(--react-dialg-top-show) * 1);
+      top: calc(var(--react-dialog-top-show) * 1);
     }
 
     animation: show-dialog 0.3s ease normal;
@@ -24,7 +31,6 @@
   }
 
   &::backdrop {
-    position: var(--react-dialg-position);
     top: 0;
     left: 0;
     right: 0;
@@ -44,7 +50,7 @@
   @keyframes show-dialog {
     from {
       opacity: 0;
-      transform: translateY(var(--react-dialg-top-hide));
+      transform: translateY(var(--react-dialog-top-hide));
     }
 
     to {
@@ -56,7 +62,7 @@
   @keyframes hide-dialog {
     to {
       opacity: 0;
-      transform: translateY(var(--react-dialg-top-hide));
+      transform: translateY(var(--react-dialog-top-hide));
     }
   }
 

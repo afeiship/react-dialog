@@ -17,6 +17,10 @@ export type ReactDialogProps = {
    * Whether to show backdrop or not.
    */
   withBackdrop?: boolean;
+  /**
+   * Whether to fixed dialog or not.
+   */
+  fixed?: boolean;
 } & HTMLAttributes<HTMLDialogElement>;
 
 // var dialog = document.querySelector('dialog');
@@ -74,12 +78,13 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   };
 
   render() {
-    const { className, visible, withBackdrop, ...props } = this.props;
+    const { className, visible, withBackdrop, fixed, ...props } = this.props;
 
     return (
       <dialog
         data-component={CLASS_NAME}
         data-backdrop={withBackdrop}
+        data-fixed={fixed}
         className={classNames(CLASS_NAME, className)}
         ref={this.dialogRef}
         {...props} />
