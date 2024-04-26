@@ -11,6 +11,10 @@ export type ReactDialogProps = {
    */
   className?: string;
   /**
+   * The dialog unique name.
+   */
+  uuid?: string;
+  /**
    * The dialog visible status.
    */
   visible?: boolean;
@@ -26,6 +30,14 @@ export type ReactDialogProps = {
    * Whether to keep dialog mounted or not.
    */
   keepMounted?: boolean;
+  /**
+   * Whether to close dialog on escape keydown.
+   */
+  closeOnEscape?: boolean;
+  /**
+   * Whether to close dialog on click outside.
+   */
+  closeOnClickOutside?: boolean;
 } & HTMLAttributes<HTMLDialogElement> & React.RefAttributes<HTMLDialogElement>;
 
 export default class ReactDialog extends Component<ReactDialogProps> {
@@ -40,7 +52,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
   private dialogRef = React.createRef<HTMLDialogElement>();
   private backdropRef = React.createRef<HTMLDivElement>();
-  private id = `${CLASS_NAME}-${uuid()}`;
+  private uuid = this.props.uuid || `${CLASS_NAME}-${uuid()}`;
 
   // ---- dom elements ----
   get dialog() {
@@ -104,14 +116,25 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   };
 
   render() {
-    const { className, visible, withBackdrop, fixed, children, keepMounted, ...props } = this.props;
+    const {
+      className,
+      visible,
+      withBackdrop,
+      fixed,
+      children,
+      keepMounted,
+      closeOnEscape,
+      closeOnClickOutside,
+      ...props
+    } = this.props;
+
     const { stateVisible } = this.state;
     const keepChildren = keepMounted || stateVisible;
 
     return (
       <>
         <dialog
-          id={this.id}
+          id={this.uuid}
           role="dialog"
           aria-modal="true"
           data-component={CLASS_NAME}
@@ -125,7 +148,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
         {
           withBackdrop && (
             <div
-              id={`${this.id}-backdrop`}
+              id={`${this.uuid}-backdrop`}
               role="presentation"
               aria-hidden="true"
               hidden
