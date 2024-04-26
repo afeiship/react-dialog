@@ -38,6 +38,10 @@ export type ReactDialogProps = {
    * Whether close dialog on click backdrop.
    */
   closeOnBackdropClick?: boolean;
+  /**
+   * The backdrop props.
+   */
+  backdropProps?: HTMLAttributes<HTMLDivElement>;
 } & HTMLAttributes<HTMLDialogElement> & React.RefAttributes<HTMLDialogElement>;
 
 export default class ReactDialog extends Component<ReactDialogProps> {
@@ -127,7 +131,8 @@ export default class ReactDialog extends Component<ReactDialogProps> {
       keepMounted,
       closeOnEscape,
       closeOnBackdropClick,
-      ...props
+      backdropProps,
+      ...dialogProps
     } = this.props;
 
     const { stateVisible } = this.state;
@@ -143,7 +148,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
           data-fixed={fixed}
           className={classNames(CLASS_NAME, className)}
           ref={this.dialogRef}
-          {...props}>
+          {...dialogProps}>
           {keepChildren ? children : null}
         </dialog>
 
@@ -156,6 +161,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
               hidden
               className={`${CLASS_NAME}__backdrop`}
               ref={this.backdropRef}
+              {...backdropProps}
             />
           )
         }
