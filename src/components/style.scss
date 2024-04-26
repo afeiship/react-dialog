@@ -14,6 +14,14 @@
     }
   }
 
+  &[data-fixed="false"] {
+    position: absolute;
+
+    &::backdrop {
+      position: absolute;
+    }
+  }
+
   &[open] {
     &[data-backdrop="true"] {
       top: calc(var(--react-dialog-top-show) * -1);

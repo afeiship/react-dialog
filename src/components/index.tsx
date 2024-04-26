@@ -42,6 +42,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   static version = '__VERSION__';
   static defaultProps = {
     visible: false,
+    fixed: false,
     withBackdrop: false,
   };
 
