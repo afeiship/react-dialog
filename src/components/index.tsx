@@ -82,7 +82,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
   render() {
     const { className, visible, withBackdrop, fixed, children, keepMounted, ...props } = this.props;
-    const keepChildren = keepMounted && visible;
+    const keepChildren = keepMounted || visible;
 
     return (
       <dialog
