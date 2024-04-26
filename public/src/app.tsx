@@ -4,6 +4,9 @@ import styled from 'styled-components';
 
 const Container = styled.div`
     width: 80%;
+    height: 80vh;
+    border: 1px solid #ccc;
+    position: relative;
     margin: 30px auto 0;
 
     nav {
@@ -25,7 +28,7 @@ export default () => {
   return (
     <Container>
       <button onClick={handleOpen}>Open</button>
-      <ReactDialog visible={visible}>
+      <ReactDialog visible={visible} withBackdrop>
         <ul>
           <li>道可道，非常道；名可名，非常名。</li>
           <li>无名，天地之始，有名，万物之母。</li>

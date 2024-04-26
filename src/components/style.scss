@@ -16,10 +16,6 @@
 
   &[data-fixed="false"] {
     position: absolute;
-
-    &::backdrop {
-      position: absolute;
-    }
   }
 
   &[open] {
@@ -27,7 +23,7 @@
       top: calc(var(--react-dialog-top-show) * -1);
     }
 
-    &[data-backdrop="fasle"] {
+    &[data-backdrop="false"] {
       top: calc(var(--react-dialog-top-show) * 1);
     }
 
@@ -44,6 +40,7 @@
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, .5);
+    position: absolute;
   }
 
   &.is-hide {
