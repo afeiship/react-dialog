@@ -68,6 +68,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     const { withBackdrop } = this.props;
     const showMethod = withBackdrop ? 'showModal' : 'show';
     this.dialog[showMethod]();
+    this.setState({ stateVisible: this.isVisible });
   };
 
   dismiss = () => {
