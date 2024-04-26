@@ -29,11 +29,11 @@
     z-index: 99;
 
     &[data-visible="true"] {
-      animation: show-backdrop 0.2s;
+      animation: show-backdrop 0.3s;
     }
 
     &[data-visible="false"] {
-      animation: hide-backdrop 0.2s;
+      animation: hide-backdrop 0.3s;
     }
   }
 
