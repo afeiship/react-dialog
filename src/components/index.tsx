@@ -21,7 +21,7 @@ export type ReactDialogProps = {
    * Whether to fixed dialog or not.
    */
   fixed?: boolean;
-} & HTMLAttributes<HTMLDialogElement>;
+} & HTMLAttributes<HTMLDialogElement> & React.RefAttributes<HTMLDialogElement>;
 
 // var dialog = document.querySelector('dialog');
 // document.querySelector('#show').onclick = function () {
