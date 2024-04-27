@@ -19,6 +19,16 @@
     position: absolute;
   }
 
+  // ----- visible and hidden animations for dialog and backdrop start -----
+  &[data-visible="true"] {
+    animation: show-dialog 0.3s;
+  }
+
+  &[data-visible="false"] {
+    animation: hide-dialog 0.3s;
+  }
+
+
   &__backdrop {
     top: 0;
     left: 0;
@@ -37,13 +47,7 @@
     }
   }
 
-  &[data-visible="true"] {
-    animation: show-dialog 0.3s;
-  }
-
-  &[data-visible="false"] {
-    animation: hide-dialog 0.3s;
-  }
+  // ----- visible and hidden animations for dialog and backdrop end -----
 
   // Keyframes for animations
   @keyframes show-dialog {
