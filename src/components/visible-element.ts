@@ -42,13 +42,13 @@ class VisibleElement {
 
   hide() {
     const { onHide, onHided, onStateChange } = this.options;
-    onHided?.();
+    onHide?.();
     onStateChange?.('hide');
     this.element.setAttribute('data-visible', 'false');
     this.element.addEventListener('webkitAnimationEnd', () => {
       this.element.hidden = true;
       if (this.isOpenedElement) (this.element as HTMLDialogElement).close();
-      onHide?.();
+      onHided?.();
       onStateChange?.('hided');
     }, EventOptions);
   }
