@@ -37,11 +37,11 @@
     }
   }
 
-  &[open] {
+  &[data-visible="true"] {
     animation: show-dialog 0.3s;
   }
 
-  &.is-hide {
+  &[data-visible="false"] {
     animation: hide-dialog 0.3s;
   }
 
@@ -80,5 +80,4 @@
       opacity: 0;
     }
   }
-
 }

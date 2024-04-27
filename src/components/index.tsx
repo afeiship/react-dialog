@@ -1,6 +1,7 @@
 // import noop from '@jswork/noop';
 import classNames from 'classnames';
 import React, { Component, HTMLAttributes } from 'react';
+import VisibleElement from './visible-element';
 
 const CLASS_NAME = 'react-dialog';
 const uuid = () => Math.random().toString(36).substring(2, 9);
@@ -59,6 +60,8 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   private dialogRef = React.createRef<HTMLDialogElement>();
   private backdropRef = React.createRef<HTMLDivElement>();
   private uuid = this.props.uuid || `${CLASS_NAME}-${uuid()}`;
+  private veDialog: VisibleElement;
+  private veBackdrop: VisibleElement;
 
   // ---- dom elements ----
   get dialog() {
@@ -67,11 +70,6 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
   get backdrop() {
     return this.backdropRef.current as HTMLDivElement;
-  }
-
-  // ---- computed props ----
-  get isVisible() {
-    return this.dialog.open;
   }
 
   // ---- state react ----
@@ -83,6 +81,8 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   componentDidMount() {
     const { visible } = this.props;
     if (visible) this.present();
+    this.veDialog = new VisibleElement(this.dialog, { onStateChange: this.handleVeStateChange });
+    this.veBackdrop = new VisibleElement(this.backdrop);
   }
 
   shouldComponentUpdate(nextProps: ReactDialogProps): boolean {
@@ -96,29 +96,20 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
   // ---- public methods ----
   present = () => {
-    if (this.isVisible) return;
-    this.dialog.show();
-    this.setState({ stateVisible: this.isVisible });
-    this.backdrop.removeAttribute('hidden');
-    this.backdrop.setAttribute('data-visible', 'true');
+    if (this.veDialog.isVisible) return;
+    this.veDialog.show();
+    this.veBackdrop.show();
   };
 
   dismiss = () => {
-    if (!this.isVisible) return;
-    this.dialog.classList.add('is-hide');
-    this.dialog.addEventListener('webkitAnimationEnd', this.handleAnimationEnd, { once: true });
-    this.backdrop.setAttribute('data-visible', 'false');
-    this.backdrop.addEventListener('webkitAnimationEnd', this.handleBackdropAnimationEnd, { once: true });
+    if (!this.veDialog.isVisible) return;
+    this.veDialog.hide();
+    this.veBackdrop.hide();
   };
 
-  private handleAnimationEnd = () => {
-    this.dialog.classList.remove('is-hide');
-    this.dialog.close();
-    this.setState({ stateVisible: this.isVisible });
-  };
-
-  private handleBackdropAnimationEnd = () => {
-    this.backdrop.hidden = true;
+  handleVeStateChange = (state) => {
+    if (state === 'show') this.setState({ stateVisible: true });
+    if (state === 'hided') this.setState({ stateVisible: false });
   };
 
   render() {

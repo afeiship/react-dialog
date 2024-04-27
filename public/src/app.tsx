@@ -28,7 +28,7 @@ export default () => {
   return (
     <Container>
       <button onClick={handleOpen}>Open</button>
-      <ReactDialog visible={visible} withBackdrop>
+      <ReactDialog visible={visible} withBackdrop keepMounted>
         <ul>
           <li>道可道，非常道；名可名，非常名。</li>
           <li>无名，天地之始，有名，万物之母。</li>
