@@ -18,6 +18,11 @@ export type ReactDialogProps = {
    */
   backdropClassName?: string;
   /**
+   * The dialog zIndex.
+   * @default 100
+   */
+  zIndex?: number;
+  /**
    * The dialog unique name.
    */
   uuid?: string;
@@ -59,6 +64,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   static displayName = CLASS_NAME;
   static version = '__VERSION__';
   static defaultProps = {
+    zIndex: 100,
     visible: false,
     fixed: false,
     withBackdrop: false,
@@ -78,8 +84,18 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     return this.dialogRef.current as HTMLDialogElement;
   }
 
+  get dialogStyle() {
+    const { zIndex, style } = this.props;
+    return { zIndex, ...style } as React.StyleHTMLAttributes<HTMLDialogElement>;
+  }
+
   get backdrop() {
     return this.backdropRef.current as HTMLDivElement;
+  }
+
+  get backdropStyle() {
+    const { zIndex, style } = this.props;
+    return { zIndex: zIndex! - 1, ...style } as React.StyleHTMLAttributes<HTMLDivElement>;
   }
 
   // ---- state react ----
@@ -130,6 +146,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
       backdropClassName,
       visible,
       withBackdrop,
+      zIndex,
       fixed,
       children,
       keepMounted,
@@ -153,7 +170,9 @@ export default class ReactDialog extends Component<ReactDialogProps> {
           data-fixed={fixed}
           className={cx(CLASS_NAME, className)}
           ref={this.dialogRef}
-          {...dialogProps}>
+          style={this.dialogStyle}
+          {...dialogProps}
+        >
           {keepChildren ? children : null}
         </dialog>
 
@@ -167,6 +186,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
               className={cx(`${CLASS_NAME}__backdrop`, backdropClassName)}
               ref={this.backdropRef}
               onClick={closeOnBackdropClick ? this.dismiss : noop}
+              style={this.backdropStyle}
               {...backdropProps}
             />
           )
