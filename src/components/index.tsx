@@ -104,6 +104,11 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   };
 
   // ---- life cycle start ----
+  constructor(props: ReactDialogProps) {
+    super(props);
+    window.addEventListener('keydown', this.handleKeyDown);
+  }
+
   componentDidMount() {
     const { visible } = this.props;
     if (visible) this.present();
@@ -116,6 +121,10 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     if (visible) this.present();
     if (!visible) this.dismiss();
     return true;
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.handleKeyDown);
   }
 
   // ---- life cycle end ----
@@ -138,6 +147,13 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   handleVeChange = (state) => {
     if (state === 'show') this.setState({ animateVisible: true });
     if (state === 'hided') this.setState({ animateVisible: false });
+  };
+
+  handleKeyDown = (event: KeyboardEvent) => {
+    const { closeOnEscape } = this.props;
+    const { key } = event;
+    if (!closeOnEscape) return;
+    if ('Escape' === key) this.dismiss();
   };
 
   render() {
