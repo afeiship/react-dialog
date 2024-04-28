@@ -1,5 +1,5 @@
-// import noop from '@jswork/noop';
-import classNames from 'classnames';
+import noop from '@jswork/noop';
+import cx from 'classnames';
 import React, { Component, HTMLAttributes } from 'react';
 import VisibleElement from './visible-element';
 
@@ -9,8 +9,14 @@ const uuid = () => Math.random().toString(36).substring(2, 9);
 export type ReactDialogProps = {
   /**
    * The extended className for component.
+   * @default ''
    */
   className?: string;
+  /**
+   * The backdrop className.
+   * @default ''
+   */
+  backdropClassName?: string;
   /**
    * The dialog unique name.
    */
@@ -18,7 +24,11 @@ export type ReactDialogProps = {
   /**
    * The dialog visible status.
    */
-  visible?: boolean;
+  visible: boolean;
+  /**
+   * The dialog close callback.
+   */
+  onClose: () => void;
   /**
    * Whether to show backdrop or not.
    */
@@ -74,7 +84,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
   // ---- state react ----
   state = {
-    stateVisible: this.props.visible
+    animateVisible: this.props.visible
   };
 
   // ---- life cycle start ----
@@ -102,19 +112,22 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   };
 
   dismiss = () => {
+    const { onClose } = this.props;
     if (!this.veDialog.isVisible) return;
     this.veDialog.close();
     this.veBackdrop.close();
+    onClose?.();
   };
 
   handleVeChange = (state) => {
-    if (state === 'show') this.setState({ stateVisible: true });
-    if (state === 'hided') this.setState({ stateVisible: false });
+    if (state === 'show') this.setState({ animateVisible: true });
+    if (state === 'hided') this.setState({ animateVisible: false });
   };
 
   render() {
     const {
       className,
+      backdropClassName,
       visible,
       withBackdrop,
       fixed,
@@ -123,11 +136,12 @@ export default class ReactDialog extends Component<ReactDialogProps> {
       closeOnEscape,
       closeOnBackdropClick,
       backdropProps,
+      onClose,
       ...dialogProps
     } = this.props;
 
-    const { stateVisible } = this.state;
-    const keepChildren = keepMounted || stateVisible;
+    const { animateVisible } = this.state;
+    const keepChildren = keepMounted || animateVisible;
 
     return (
       <>
@@ -137,7 +151,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
           aria-modal="true"
           data-component={CLASS_NAME}
           data-fixed={fixed}
-          className={classNames(CLASS_NAME, className)}
+          className={cx(CLASS_NAME, className)}
           ref={this.dialogRef}
           {...dialogProps}>
           {keepChildren ? children : null}
@@ -147,11 +161,12 @@ export default class ReactDialog extends Component<ReactDialogProps> {
           withBackdrop && (
             <div
               id={`${this.uuid}-backdrop`}
-              role="presentation"
+              role="backdrop"
               aria-hidden="true"
               hidden
-              className={`${CLASS_NAME}__backdrop`}
+              className={cx(`${CLASS_NAME}__backdrop`, backdropClassName)}
               ref={this.backdropRef}
+              onClick={closeOnBackdropClick ? this.dismiss : noop}
               {...backdropProps}
             />
           )

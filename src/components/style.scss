@@ -1,7 +1,11 @@
 .react-dialog {
-  z-index: 100;
+  --react-dialog-z-index: 100;
+  --react-dialog-centered-y: 37.5%;
+  --react-dialog-backdrop-z-index: 99;
+
+  z-index: var(--react-dialog-z-index);
+  top: var(--react-dialog-centered-y);
   left: 50%;
-  top: 37.5%;
   transform: translate(-50%, -50%);
   margin: 0;
 
@@ -34,9 +38,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, .1);
+    background-color: rgba(0, 0, 0, 0.1);
     position: absolute;
-    z-index: 99;
+    z-index: var(--react-dialog-backdrop-z-index);
 
     &[data-visible="true"] {
       animation: show-backdrop 0.3s;
