@@ -81,7 +81,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   componentDidMount() {
     const { visible } = this.props;
     if (visible) this.present();
-    this.veDialog = new VisibleElement(this.dialog, { onStateChange: this.handleVeStateChange });
+    this.veDialog = new VisibleElement(this.dialog, { onChange: this.handleVeChange });
     this.veBackdrop = new VisibleElement(this.backdrop);
   }
 
@@ -103,11 +103,11 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
   dismiss = () => {
     if (!this.veDialog.isVisible) return;
-    this.veDialog.hide();
-    this.veBackdrop.hide();
+    this.veDialog.close();
+    this.veBackdrop.close();
   };
 
-  handleVeStateChange = (state) => {
+  handleVeChange = (state) => {
     if (state === 'show') this.setState({ stateVisible: true });
     if (state === 'hided') this.setState({ stateVisible: false });
   };

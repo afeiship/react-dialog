@@ -1,13 +1,13 @@
 const EventOptions = { once: true };
 
-type State = 'show' | 'showed' | 'hide' | 'hided';
+type State = 'show' | 'showed' | 'close' | 'closed';
 
 interface VisibleElementOptions {
   onShow?: () => void;
   onShowed?: () => void;
-  onHide?: () => void;
-  onHided?: () => void;
-  onStateChange?: (status: State) => void;
+  onClose?: () => void;
+  onClosed?: () => void;
+  onChange?: (status: State) => void;
 }
 
 class VisibleElement {
@@ -28,28 +28,28 @@ class VisibleElement {
   }
 
   show() {
-    const { onShow, onShowed, onStateChange } = this.options;
+    const { onShow, onShowed, onChange } = this.options;
     if (this.isOpenedElement) (this.element as HTMLDialogElement).show();
     onShow?.();
-    onStateChange?.('show');
+    onChange?.('show');
     this.element.removeAttribute('hidden');
     this.element.setAttribute('data-visible', 'true');
     this.element.addEventListener('webkitAnimationEnd', () => {
       onShowed?.();
-      onStateChange?.('showed');
+      onChange?.('showed');
     }, EventOptions);
   }
 
-  hide() {
-    const { onHide, onHided, onStateChange } = this.options;
-    onHide?.();
-    onStateChange?.('hide');
+  close() {
+    const { onClose, onClosed, onChange } = this.options;
+    onClose?.();
+    onChange?.('close');
     this.element.setAttribute('data-visible', 'false');
     this.element.addEventListener('webkitAnimationEnd', () => {
       this.element.hidden = true;
       if (this.isOpenedElement) (this.element as HTMLDialogElement).close();
-      onHided?.();
-      onStateChange?.('hided');
+      onClosed?.();
+      onChange?.('closed');
     }, EventOptions);
   }
 }
