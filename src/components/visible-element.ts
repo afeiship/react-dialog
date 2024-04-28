@@ -51,12 +51,12 @@ class VisibleElement {
     }, EventOptions);
   }
 
-  immediatelyShow() {
+  private immediatelyShow() {
     this.element.removeAttribute('hidden');
     if (this.isOpenedElement) (this.element as HTMLDialogElement).show();
   }
 
-  immediatelyClose() {
+  private immediatelyClose() {
     this.element.hidden = true;
     if (this.isOpenedElement) (this.element as HTMLDialogElement).close();
   }
