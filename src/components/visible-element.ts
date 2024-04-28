@@ -29,10 +29,9 @@ class VisibleElement {
 
   show() {
     const { onShow, onShowed, onChange } = this.options;
-    if (this.isOpenedElement) (this.element as HTMLDialogElement).show();
     onShow?.();
     onChange?.('show');
-    this.element.removeAttribute('hidden');
+    this.immediatelyShow();
     this.element.setAttribute('data-visible', 'true');
     this.element.addEventListener('webkitAnimationEnd', () => {
       onShowed?.();
@@ -46,11 +45,20 @@ class VisibleElement {
     onChange?.('close');
     this.element.setAttribute('data-visible', 'false');
     this.element.addEventListener('webkitAnimationEnd', () => {
-      this.element.hidden = true;
-      if (this.isOpenedElement) (this.element as HTMLDialogElement).close();
+      this.immediatelyClose();
       onClosed?.();
       onChange?.('closed');
     }, EventOptions);
+  }
+
+  immediatelyShow() {
+    this.element.removeAttribute('hidden');
+    if (this.isOpenedElement) (this.element as HTMLDialogElement).show();
+  }
+
+  immediatelyClose() {
+    this.element.hidden = true;
+    if (this.isOpenedElement) (this.element as HTMLDialogElement).close();
   }
 }
 
