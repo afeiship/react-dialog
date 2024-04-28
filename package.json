@@ -1,7 +1,7 @@
 {
   "name": "@jswork/react-dialog",
   "homepage": "https://js.work",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A react dialog based on HTML dialog.",
   "license": "MIT",
   "main": "dist/index.js",
@@ -78,5 +78,11 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
-  }
+  },
+  "keywords": [
+    "component",
+    "react",
+    "dialog",
+    "modal"
+  ]
 }
