@@ -25,6 +25,7 @@ export default () => {
   const handleClose = () => {
     setVisible(false);
   };
+
   return (
     <Container>
       <button onClick={handleOpen}>Open</button>
