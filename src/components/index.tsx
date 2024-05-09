@@ -116,12 +116,18 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     this.veBackdrop = new VisibleElement(this.backdrop);
   }
 
-  shouldComponentUpdate(nextProps: ReactDialogProps): boolean {
-    const { visible } = nextProps;
+  componentDidUpdate(): void {
+    const { visible } = this.props;
     if (visible) this.present();
     if (!visible) this.dismiss();
-    return true;
   }
+
+  // shouldComponentUpdate(nextProps: ReactDialogProps): boolean {
+  //   const { visible } = nextProps;
+  //   if (visible) this.present();
+  //   if (!visible) this.dismiss();
+  //   return true;
+  // }
 
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown);
@@ -209,4 +215,3 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     );
   }
 }
-
