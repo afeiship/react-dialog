@@ -1,6 +1,7 @@
 import noop from '@jswork/noop';
 import cx from 'classnames';
 import React, { Component, HTMLAttributes } from 'react';
+import ReactBackdrop from '@jswork/react-backdrop';
 import VisibleElement, { VisibleState } from '@jswork/visible-element';
 
 const CLASS_NAME = 'react-dialog';
@@ -91,11 +92,6 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
   get backdrop() {
     return this.backdropRef.current as HTMLDivElement;
-  }
-
-  get backdropStyle() {
-    const { zIndex, style } = this.props;
-    return { zIndex: zIndex! - 1, ...style } as React.StyleHTMLAttributes<HTMLDivElement>;
   }
 
   // ---- state react ----
@@ -192,15 +188,14 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
         {
           withBackdrop && (
-            <div
+            <ReactBackdrop
+              fixed={fixed}
+              visible={visible}
+              zIndex={zIndex! - 1}
               id={`${this.uuid}-backdrop`}
+              className={backdropClassName}
               role="backdrop"
-              aria-hidden="true"
-              hidden
-              className={cx(`${CLASS_NAME}__backdrop`, backdropClassName)}
-              ref={this.backdropRef}
               onClick={closeOnBackdropClick ? this.dismiss : noop}
-              style={this.backdropStyle}
               {...backdropProps}
             />
           )

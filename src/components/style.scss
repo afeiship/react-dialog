@@ -32,25 +32,6 @@
     animation: hide-dialog 0.3s;
   }
 
-
-  &__backdrop {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.1);
-    position: absolute;
-    z-index: var(--react-dialog-backdrop-z-index);
-
-    &[data-visible="true"] {
-      animation: show-backdrop 0.3s;
-    }
-
-    &[data-visible="false"] {
-      animation: hide-backdrop 0.3s;
-    }
-  }
-
   // ----- visible and hidden animations for dialog and backdrop end -----
 
   // Keyframes for animations
@@ -70,22 +51,6 @@
     to {
       opacity: 0;
       top: 32%;
-    }
-  }
-
-  @keyframes show-backdrop {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes hide-backdrop {
-    to {
-      opacity: 0;
     }
   }
 }

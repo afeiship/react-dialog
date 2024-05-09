@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDialog from '../../src/main';
 import styled from 'styled-components';
+import '@jswork/react-backdrop/dist/style.css';
 
 const Container = styled.div`
     width: 80%;
