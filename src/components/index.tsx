@@ -75,10 +75,8 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   };
 
   private dialogRef = React.createRef<HTMLDialogElement>();
-  private backdropRef = React.createRef<HTMLDivElement>();
   private uuid = this.props.uuid || `${CLASS_NAME}-${uuid()}`;
-  private veDialog: VisibleElement;
-  private veBackdrop: VisibleElement;
+  private ve: VisibleElement;
 
   // ---- dom elements ----
   get dialog() {
@@ -88,10 +86,6 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   get dialogStyle() {
     const { zIndex, style } = this.props;
     return { zIndex, ...style } as React.StyleHTMLAttributes<HTMLDialogElement>;
-  }
-
-  get backdrop() {
-    return this.backdropRef.current as HTMLDivElement;
   }
 
   // ---- state react ----
@@ -107,17 +101,13 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
   componentDidMount() {
     const { visible } = this.props;
-    if (visible) this.present();
-    this.veDialog = new VisibleElement(this.dialog, { onChange: this.handleVeChange });
-    this.veBackdrop = new VisibleElement(this.backdrop);
+    if (visible) this.ve.show();
+    this.ve = new VisibleElement(this.dialog, { onChange: this.handleVeChange });
   }
 
   shouldComponentUpdate(nextProps: ReactDialogProps): boolean {
     const { visible } = nextProps;
-    if (visible !== this.props.visible) {
-      if (visible) this.present();
-      if (!visible) this.dismiss();
-    }
+    if (visible !== this.props.visible) this.ve.to(visible);
     return true;
   }
 
@@ -128,28 +118,20 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   // ---- life cycle end ----
 
   // ---- public methods ----
-  present = () => {
-    this.veDialog.show();
-    this.veBackdrop.show();
-  };
-
-  dismiss = () => {
-    const { onClose } = this.props;
-    this.veDialog.close();
-    this.veBackdrop.close();
-    onClose?.();
-  };
-
   handleVeChange = (state: VisibleState) => {
+    const { onClose } = this.props;
     if (state === 'show') this.setState({ animateVisible: true });
-    if (state === 'closed') this.setState({ animateVisible: false });
+    if (state === 'closed') {
+      this.setState({ animateVisible: false });
+      onClose?.();
+    }
   };
 
   handleKeyDown = (event: KeyboardEvent) => {
     const { closeOnEscape } = this.props;
     const { key } = event;
     if (!closeOnEscape) return;
-    if ('Escape' === key) this.dismiss();
+    if ('Escape' === key) this.ve.close();
   };
 
   render() {
@@ -197,7 +179,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
               id={`${this.uuid}-backdrop`}
               className={backdropClassName}
               role="backdrop"
-              onClick={closeOnBackdropClick ? this.dismiss : noop}
+              onClick={closeOnBackdropClick ? this.ve.close : noop}
               {...backdropProps}
             />
           )
