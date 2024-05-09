@@ -166,7 +166,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
       ...dialogProps
     } = this.props;
 
-    const keepChildren = keepMounted || this.veDialog.visible;
+    const keepChildren = keepMounted || this.veDialog?.visible;
 
     return (
       <>
