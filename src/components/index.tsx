@@ -114,8 +114,10 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
   shouldComponentUpdate(nextProps: ReactDialogProps): boolean {
     const { visible } = nextProps;
-    if (visible) this.present();
-    if (!visible) this.dismiss();
+    if (visible !== this.props.visible) {
+      if (visible) this.present();
+      if (!visible) this.dismiss();
+    }
     return true;
   }
 
