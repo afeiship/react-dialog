@@ -1,7 +1,7 @@
 import noop from '@jswork/noop';
 import cx from 'classnames';
 import React, { Component, HTMLAttributes } from 'react';
-import VisibleElement from '@jswork/visible-element';
+import VisibleElement, { VisibleState } from '@jswork/visible-element';
 
 const CLASS_NAME = 'react-dialog';
 const uuid = () => Math.random().toString(36).substring(2, 9);
@@ -112,14 +112,16 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   componentDidMount() {
     const { visible } = this.props;
     if (visible) this.present();
-    this.veDialog = new VisibleElement(this.dialog);
+    this.veDialog = new VisibleElement(this.dialog, { onChange: this.handleVeChange });
     this.veBackdrop = new VisibleElement(this.backdrop);
   }
 
   shouldComponentUpdate(nextProps: ReactDialogProps): boolean {
     const { visible } = nextProps;
-    if (visible) this.present();
-    if (!visible) this.dismiss();
+    if (visible !== this.props.visible) {
+      if (visible) this.present();
+      if (!visible) this.dismiss();
+    }
     return true;
   }
 
@@ -140,6 +142,11 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     this.veDialog.close();
     this.veBackdrop.close();
     onClose?.();
+  };
+
+  handleVeChange = (state: VisibleState) => {
+    if (state === 'show') this.setState({ animateVisible: true });
+    if (state === 'closed') this.setState({ animateVisible: false });
   };
 
   handleKeyDown = (event: KeyboardEvent) => {
@@ -166,7 +173,8 @@ export default class ReactDialog extends Component<ReactDialogProps> {
       ...dialogProps
     } = this.props;
 
-    const keepChildren = keepMounted || this.veDialog?.visible;
+    const { animateVisible } = this.state;
+    const keepChildren = keepMounted || animateVisible;
 
     return (
       <>
@@ -203,3 +211,4 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     );
   }
 }
+
