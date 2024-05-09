@@ -27,6 +27,7 @@ npm install -S @jswork/react-dialog
   import React from 'react';
   import ReactDialog from '../../src/main';
   import styled from 'styled-components';
+  import '@jswork/react-backdrop/dist/style.css';
 
   const Container = styled.div`
       width: 80%;
@@ -42,7 +43,7 @@ npm install -S @jswork/react-dialog
   `;
 
   export default () => {
-    const [visible, setVisible] = React.useState(false);
+    const [visible, setVisible] = React.useState(true);
 
     const handleOpen = () => {
       setVisible(true);
