@@ -7,7 +7,6 @@
   "main": "dist/index.js",
   "typings": "dist/main.d.ts",
   "files": [
-    "src",
     "dist",
     "global.d.ts"
   ],
