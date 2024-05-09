@@ -17,7 +17,7 @@ const Container = styled.div`
 `;
 
 export default () => {
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = React.useState(true);
 
   const handleOpen = () => {
     setVisible(true);

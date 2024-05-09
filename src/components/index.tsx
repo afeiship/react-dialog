@@ -1,4 +1,3 @@
-import noop from '@jswork/noop';
 import cx from 'classnames';
 import React, { Component, HTMLAttributes } from 'react';
 import ReactBackdrop from '@jswork/react-backdrop';
@@ -94,20 +93,16 @@ export default class ReactDialog extends Component<ReactDialogProps> {
   };
 
   // ---- life cycle start ----
-  constructor(props: ReactDialogProps) {
-    super(props);
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
-
   componentDidMount() {
     const { visible } = this.props;
-    if (visible) this.ve.show();
     this.ve = new VisibleElement(this.dialog, { onChange: this.handleVeChange });
+    if (visible) this.ve?.show();
+    window.addEventListener('keydown', this.handleKeyDown);
   }
 
   shouldComponentUpdate(nextProps: ReactDialogProps): boolean {
     const { visible } = nextProps;
-    if (visible !== this.props.visible) this.ve.to(visible);
+    if (visible !== this.props.visible) this.ve?.to(visible);
     return true;
   }
 
@@ -132,6 +127,12 @@ export default class ReactDialog extends Component<ReactDialogProps> {
     const { key } = event;
     if (!closeOnEscape) return;
     if ('Escape' === key) this.ve.close();
+  };
+
+  handleBackdropClick = () => {
+    const { closeOnBackdropClick, onClose } = this.props;
+    if (!closeOnBackdropClick) return;
+    onClose?.();
   };
 
   render() {
@@ -179,7 +180,7 @@ export default class ReactDialog extends Component<ReactDialogProps> {
               id={`${this.uuid}-backdrop`}
               className={backdropClassName}
               role="backdrop"
-              onClick={closeOnBackdropClick ? this.ve.close : noop}
+              onClick={this.handleBackdropClick}
               {...backdropProps}
             />
           )
