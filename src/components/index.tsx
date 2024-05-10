@@ -75,7 +75,8 @@ export default class ReactDialog extends Component<ReactDialogProps> {
 
   private dialogRef = React.createRef<HTMLDialogElement>();
   private uuid = this.props.uuid || `${CLASS_NAME}-${uuid()}`;
-  private ve: VisibleElement;
+  private ve: VisibleElement = null as any;
+
 
   // ---- dom elements ----
   get dialog() {
