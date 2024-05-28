@@ -1,7 +1,7 @@
 {
   "name": "@jswork/react-dialog",
   "homepage": "https://js.work",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "A react dialog based on HTML dialog.",
   "license": "MIT",
   "main": "dist/index.js",
@@ -26,7 +26,7 @@
     "@babel/core": "^7.12.10",
     "@jswork/next": "^1.2.2",
     "@jswork/next-replace-in-file": "^1.0.0",
-    "@jswork/next-rollup-banner": "^1.0.11",
+    "@jswork/next-rollup-banner": "^1.0.12",
     "@jswork/react-markdown-props": "^1.0.1",
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-image": "^2.1.1",
@@ -71,8 +71,8 @@
   },
   "dependencies": {
     "@jswork/noop": "^1.0.0",
-    "@jswork/react-backdrop": "^1.1.3",
-    "@jswork/visible-element": "^1.0.5",
+    "@jswork/react-backdrop": "^1.1.5",
+    "@jswork/visible-element": "^1.0.7",
     "classnames": "^2.2.6"
   },
   "publishConfig": {
